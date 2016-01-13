@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="namee.nq.repository.OrderMapper">
+    
+	<resultMap type="namee.nq.domain.Order" id="orderResultMap">
+		<result property="orderId" column="orderId"/>
+		<result property="companyName" column="companyName"/>
+		<result property="orderPerson" column="orderPerson"/>
+		<result property="factory" column="factory"/>
+		<result property="purchasePrice" column="purchasePrice"/>
+		<result property="supplyPrice" column="supplyPrice"/>
+		<result property="item" column="item"/>
+		<result property="amount" column="amount"/>
+		<result property="memo" column="memo"/>
+		<result property="deleteYN" column="deleteYN"/>
+		<result property="user" column="user"/>
+	</resultMap>	
+	
+	<select id="selectOrderList" resultMap="orderResultMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				`NQ_ORDER`
+			WHERE
+				deleteYN = 'N'
+		]]>
+	</select>
+	
+	<select id="selectOrder" parameterType="int" resultMap="orderResultMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				`NQ_ORDER`
+			WHERE 
+				orderId = #{orderId}
+		]]>	
+	</select>
+		
+	<insert id="insertOrder" parameterType="namee.nq.domain.Order">
+		<![CDATA[
+			INSERT INTO `NQ_ORDER`(companyName,orderPerson,factory,purchasePrice,supplyPrice,item,amount,memo,orderDate,attachedFileName,attachedFilePath,deleteYN,user)
+			VALUES(#{companyName},#{orderPerson},#{factory},#{purchasePrice},#{supplyPrice},#{item},#{amount},#{memo},now(),#{attachedFileName},#{attachedFilePath},'N',#{user})
+		]]>
+	</insert>
+	
+	<update id="updateOrder" parameterType="namee.nq.domain.Order">
+	<![CDATA[
+		UPDATE `NQ_ORDER`
+		SET
+			companyName = #{companyName},
+			orderPerson = #{orderPerson},
+			factory = #{factory},
+			purchasePrice = #{purchasePrice},
+			supplyPrice = #{supplyPrice},
+			item = #{item},
+			amount = #{amount},
+			memo = #{memo},
+			user = #{user}
+		WHERE
+			orderId = #{orderId}
+	]]>		
+	</update>
+	
+	<update id="deleteOrder" parameterType="int">
+	<![CDATA[
+		UPDATE `NQ_ORDER`
+		SET
+			deleteYN = 'Y'
+		WHERE
+			orderId = #{orderId}
+	]]>		
+	</update>
+	
+	<select id="selectAttachedFilePath" parameterType="int">
+		SELECT attachedFilePath
+		FROM NQ_ORDER
+		WHERE orderId = #{orderId}
+	</select>
+	
+	<select id="search" resultMap="orderResultMap" parameterType="java.util.Map">
+		SELECT 
+			*
+		FROM 
+			`NQ_ORDER`
+		WHERE
+			${searchKeyWord} = #{searchText}
+	</select>
+</mapper>

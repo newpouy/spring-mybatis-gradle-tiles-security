@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd">
 	
+	<context:component-scan base-package="team.tks.moim.*"/>
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	<!-- <bean id="dataSource"class="org.apache.tomcat.jdbc.pool.DataSource>  tomcat pool-->
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> apche dbcp -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="/WEB-INF/spring/db.properties"/>
+		<property name="fileEncoding" value="UTF-8"/>
+	</bean>
+	<bean id="myCipher" class="myCypher.MyAES256Cipher"></bean>
+ 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" depends-on="myCipher">		
+	<property name="driverClassName" value="#{myCipher.AES_Decode('${en_aws.driver}')}"></property>
+		<property name="url" value="#{myCipher.AES_Decode('${en_aws.url}')}"></property>
+		<property name="username" value="#{myCipher.AES_Decode('${en_aws.username}')}"></property>
+		<property name="password" value="#{myCipher.AES_Decode('${en_aws.password}')}"></property>
+	</bean> 
+
+<!-- 	<bean id = "myAppContext" class = "team.dkh.pj.MyAppContext"></bean>
+	<bean id="dataSource" class="team.dkh.pj.MyAppContext">
+		<lookup-method />
+	</bean>
+ -->
+	<!-- MyBatis Connection -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+	<bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="team.tks.moim.repository"></property>
+	</bean>
 </beans>
