@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+<!-- default : 템플릿에 설정된 페이지의 구성 요소에 대한 실제 파일을 지정합니다.  -->
+	 <definition name="default" template="/WEB-INF/views/layouts/layout.jsp">
+		 <put-attribute name="header" value="/WEB-INF/views/layouts/default/header.jsp" />
+		 <put-attribute name="menu"  value="/WEB-INF/views/layouts/default/menu.jsp" />
+		 <put-attribute name="body"  value=""/>
+		 <put-attribute name="footer" value="/WEB-INF/views/layouts/default/footer.jsp" />
+	</definition> 
+ 
+<!--  default를 확장하여 test 라는 URL로 시작되는 호출이 오는 경우 아래 설정에 의해서 페이지를 만들게 됩니다. -->
+	<definition name="test/*" extends="default">
+	 	<put-attribute name="body" value="/WEB-INF/views/test/{1}.jsp" />
+	</definition>
+	<definition name="login" extends="default">
+	 	<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
+	</definition>
+	<definition name="boardList" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/board/boardList.jsp"/>
+	</definition>
+	<definition name="boardOne" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/board/boardOne.jsp"/>
+	</definition>
+	<definition name="boardWriteView" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/board/boardWriteView.jsp"/>
+	</definition>
+	<definition name="boardModifyView" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/board/boardModifyView.jsp"/>
+	</definition>
+</tiles-definitions>

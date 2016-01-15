@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.tks.moim.repository.BoardMapper">
+	
+ 	<select id="selectBoardList" resultType="team.tks.moim.domain.Board">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				board
+		]]>
+	</select> 
+	
+	<select id="selectBoard" parameterType="int" resultType="team.tks.moim.domain.Board">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				board
+			WHERE 
+				orderId = #{orderId}
+		]]>	
+	</select>
+		
+	<insert id="insertBoard" parameterType="team.tks.moim.domain.Board">
+		<![CDATA[
+
+		]]>
+	</insert>
+	
+	<update id="updateBoard" parameterType="team.tks.moim.domain.Board">
+	<![CDATA[
+	
+	]]>		
+	</update>
+	
+	<update id="deleteBoard" parameterType="int">
+	<![CDATA[
+
+	]]>		
+	</update>
+	
+	<select id="selectAttachedFilePath" parameterType="int">
+
+	</select>
+	
+	<select id="search" resultType="team.tks.moim.domain.Board" parameterType="java.util.Map">
+
+	</select>
+</mapper>
