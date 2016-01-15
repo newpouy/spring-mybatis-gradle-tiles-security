@@ -17,6 +17,7 @@
 	</bean>
 	<bean id="myCipher" class="myCypher.MyAES256Cipher"></bean>
  	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" depends-on="myCipher">		
+
 		
 	<property name="driverClassName" value="#{myCipher.AES_Decode('${en_aws.driver}')}"></property>
 		<property name="url" value="#{myCipher.AES_Decode('${en_aws.url}')}"></property>
